@@ -5,4 +5,4 @@ def checkear():
 def generar_tablero():
 def ():
 def ():
-def ():
+def main(): #empieza a jugar
