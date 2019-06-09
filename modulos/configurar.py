@@ -14,3 +14,9 @@ def info_enwiki(palabra):
 	return()
 def info_enpattern(palabra)
 	return()
+def agregar(palabra)
+	return()
+def eliminar(palabra)
+	return()
+def 
+	return()
