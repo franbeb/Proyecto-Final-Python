@@ -14,6 +14,13 @@ SUS = 'Sustantivo' #String que representa la clave en Palabras de los sustantivo
 CANT_VER ='Cantidad_Verbos' 
 CANT_ADJ = 'Cantidad_Adjetivos'
 CANT_SUS = 'Cantidad_Sustantivos'
+COL_ADJ = 'Color_Adjetivo'
+COL_VER = 'Color_Verbo'
+COL_SUS = 'Color_Sustantivo'
+CONF_ORIENTACION = 'Tipo_Orientacion'
+CONF_VERT = 'Vertical'
+CONF_MAY = 'Mayuscula'
+CONF_AYUDA = 'Ayuda'
 
 
 #Juego
