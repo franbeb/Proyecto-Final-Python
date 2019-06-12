@@ -77,9 +77,9 @@ def matriz_crear(elegido):
 			x+=1
 		y+=1
 	#antes de devolverla habria que ver si hay que rotralas
-	matriz=rotate_matrix(matriz)
-	matriz_respuestas=rotate_matrix(matriz_respuestas)
-	matriz_input=rotate_matrix(matriz_input)
+	# matriz=rotate_matrix(matriz)
+	# matriz_respuestas=rotate_matrix(matriz_respuestas)
+	# matriz_input=rotate_matrix(matriz_input)
 	
 	return(matriz,matriz_respuestas,matriz_input)
 def crear_layout(matriz):
