@@ -1,6 +1,1 @@
-{
-  "Cantidad_Verbos": 1,
-  "Cantidad_Adjetivos": 2,
-  "Cantidad_Sustantivos": 1
-
-}
+{"Cantidad_Verbos": 1, "Cantidad_Adjetivos": 13, "Cantidad_Sustantivos": 5, "Adjetivo": 0.0, "Verbo": 0.0, "Sustantivo": 0.0, "Color_Adjetivo": "#34e238", "Color_Verbo": "#ff4246", "Color_Sustantivo": "#6969d8", "Ayuda": true, "Mayuscula": true, "Tipo_Orientacion": "Horizontal"}
