@@ -161,11 +161,6 @@ def borrar_palabra(pal , palabras , lista_palabra , window , config):
                 config[tipo[cat]] = len(palabras[cat])
             
 
-def evitar_jugar_vacio(adj , ver , sus , config , vacio):
-    if config[CANT_ADJ]  + config[CANT_VER] + config[CANT_SUS] == 0:
-        
-        config[vacio] = 1 
-
 def checkear_sliders(config , valores):
 
     tipos = [None,CANT_ADJ,CANT_VER,CANT_SUS]
