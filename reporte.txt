@@ -1,1 +1,9 @@
-vacio
+No se encontro tipo en Wiktionary ,ni en Pattern para la palabra 123 
+No se encontro tipo en Wiktionary ,ni en Pattern para la palabra 1 
+No se encontro tipo en Wiktionary ,ni en Pattern para la palabra 1.0 
+No se encontro tipo en Wiktionary , se utilizo la categoria encontrada en Pattern para la palabra h4laa 
+Se ingreso definicion , ya que no se pudo encontrar una en Wiktionary para la palabra h4laa 
+Conflicto entre tipos de Wiktionary y Pattern , se tomara la categoria de Wiktio
+Conflicto entre tipos de Wiktionary y Pattern , se tomara la categoria de Wiktio
+Conflicto entre tipos de Wiktionary y Pattern , se tomara la categoria de Wiktio
+Conflicto entre tipos de Wiktionary y Pattern , se tomara la categoria de Wiktio

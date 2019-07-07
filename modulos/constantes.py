@@ -1,8 +1,8 @@
 #constantes?
 import json
 
-DIR_PAL = "../datos/palabras.json" #Guarda la direccion donde se encuentra el json con la palabras de la sopa de letras
-DIR_CONFIG = "../datos/configuracion.json" #Guarda la direccion donde se encuentra la configuracion a usar en la sopa de letra
+DIR_PAL = "datos/palabras.json" #Guarda la direccion donde se encuentra el json con la palabras de la sopa de letras
+DIR_CONFIG = "datos/configuracion.json" #Guarda la direccion donde se encuentra la configuracion a usar en la sopa de letra
 
 
 #Palabras.json
@@ -22,6 +22,13 @@ CONF_VERT = 'Vertical'
 CONF_MAY = 'Mayuscula'
 CONF_AYUDA = 'Ayuda'
 
+
+#COLORES
+COL_INCORRECTO = "#fb3338"
+COL_MALCLASIFICADO = "#da716d"
+COL_DEFAULT = "#77cac1"
+COL_CORRECTO = "#34e238"
+COL_NOSELEC = "#fcae45"
 
 #Juego
 
