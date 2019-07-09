@@ -1,0 +1,5 @@
+{
+  "oficina1":[{"temperatura": 4000 , "humedad" : 5 , "fecha" : 1231} , {"temperatura": 27, "humedad" : 5 , "fecha" : 1231} , {"temperatura": 30 , "humedad" : 5 , "fecha" : 1231} ]
+  ,"oficina2": [{"temperatura": 0 , "humedad" : 5 , "fecha" : 1231}, {"temperatura": -300 , "humedad" : 50 , "fecha" : 1231} , {"temperatura": 2 , "humedad" : 23 , "fecha" : 1231}  ]
+  , "oficina3" :[{"temperatura": 16 , "humedad" : 5 , "fecha" : 1231} , {"temperatura": 17 , "humedad" : 5 , "fecha" : 1231} , {"temperatura": 15 , "humedad" : 5 , "fecha" : 1231}  ]
+}

@@ -14,7 +14,7 @@ def leer_temp():
     return info_temperatura
  
 def guardar_temp(info , oficina = 'oficina1'):
-    with open ("arch/datos-oficina.json", "r") as log_file:
+    with open ("../datos/datos-oficina.json", "r") as log_file:
         try:
             dic_de_temperaturas = json.load(log_file)
         except Exception:

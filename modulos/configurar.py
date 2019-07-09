@@ -9,7 +9,7 @@ from pattern.es import parse
 # sustantivos, adjetivos y verbos.
 
 
-def crear_interfaz(pal, config, palabras_lista):
+def crear_interfaz(pal, config, palabras_lista , ofi):
 
     ori = config[CONF_ORIENTACION] == CONF_VERT
 
@@ -18,17 +18,19 @@ def crear_interfaz(pal, config, palabras_lista):
                           sg.Button(button_text='ELIMINAR', key='Eliminar')],
             [sg.Text('Palabras \n Agregadas'), sg.Listbox(
                 palabras_lista, size=(None, 5), key='Agregadas')],
-            [sg.Text(ADJ), sg.Slider(range=(0, len(pal[ADJ])), default_value=config[CANT_ADJ], orientation='horizontal', font=('Helvetica', 12)), sg.Button(
+            [sg.Text(ADJ), sg.Slider(range=(0, len(pal[ADJ])), default_value=config[CANT_ADJ], orientation='horizontal', font=('Helvetica', 12), key = ADJ), sg.Button(
                 button_text=COL_ADJ, button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_ADJ]), key=COL_ADJ)],
-            [sg.Text(VER), sg.Slider(range=(0, len(pal[VER])), default_value=config[CANT_VER], orientation='horizontal', font=('Helvetica', 12)), sg.Button(
+            [sg.Text(VER), sg.Slider(range=(0, len(pal[VER])), default_value=config[CANT_VER], orientation='horizontal', font=('Helvetica', 12), key = VER), sg.Button(
                 button_text=COL_VER, button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_VER]), key=COL_VER)],
-            [sg.Text(SUS), sg.Slider(range=(0, len(pal[SUS])), default_value=config[CANT_SUS], orientation='horizontal', font=('Helvetica', 12)), sg.Button(
+            [sg.Text(SUS), sg.Slider(range=(0, len(pal[SUS])), default_value=config[CANT_SUS], orientation='horizontal', font=('Helvetica', 12), key = SUS), sg.Button(
                 button_text=COL_SUS, button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_SUS]), key=COL_SUS)],
             [sg.Checkbox('Ayuda', default=config[CONF_AYUDA])],
             [sg.Text('Tipografia de texto'),sg.InputCombo(values= ['Helvetica', 'Arial', 'Calibri'], readonly= True, key = 'tipografia')],
             [sg.Checkbox('Mayusculas', default=config[CONF_MAY])],
+
             [sg.Radio('Vertical', 'Radio1', default=ori), sg.Radio(
                 'Horizontal', 'Radio1', default=not ori)],
+            [sg.Combo(list(ofi.keys()))],
             [sg.Button('Guardar', key='Submit'), sg.Button(
                 'Volver', key='Cancel'), sg.Button('Mostrar Reporte', key='Reporte')]
             ]
@@ -40,7 +42,7 @@ def crear_interfaz(pal, config, palabras_lista):
 def analizar_seccion(elem, tipo):
     tip = tipo
     part = elem.content.split('\n')
-
+    defi = 'Nada'
     for p in part:
         if(p.startswith('1')):
             defi = p
@@ -95,7 +97,8 @@ def buscar_palabra(pal , reporte):
     return tipo , defi
 
 
-def buscar_cat(pal ):
+def buscar_cat(pal) :
+    
     w = Wiktionary(language = 'es')
     art = w.search(pal)
 
@@ -110,6 +113,7 @@ def buscar_cat(pal ):
                 tipo = SUS
     except:
         sg.Popup("No se encontro en Wiki")
+        
     if tipo == 'Nada':
         tip = parse(pal).split('/')[1]
         if tip == 'NN':
@@ -121,7 +125,8 @@ def buscar_cat(pal ):
     # Falta implementacion tipos pattern y Definicion
     return tipo
 
-def agregar_palabra(pal , palabras , window , palabras_lista , reporte):
+def agregar_palabra(pal , palabras , window , palabras_lista , reporte , config):
+    pal = pal.lower()
     cat , definicion = buscar_palabra(pal , reporte)
     existe = cat != 'Nada'
     if(existe):
@@ -129,41 +134,61 @@ def agregar_palabra(pal , palabras , window , palabras_lista , reporte):
         repe = not pal in check_repeticion
     else :
         repe = False
-
-
-    
     if existe and repe: 
         palabras[cat].append([pal , definicion])
         Agregar = window.FindElement('Agregadas')
         palabras_lista.append(pal)
         Agregar.Update(values = palabras_lista )
+        tipo = {SUS: CANT_SUS, ADJ: CANT_ADJ, VER: CANT_VER}
+        slider = window.FindElement(cat)
+        slider.Update(value=config[tipo[cat]], range=(0, len(palabras[cat])))
     else:
         if repe:
             sg.Popup('Ya se ingreso esa palabra previamente,si quiere cambiar la definicion intente eliminandola y agregandola de nuevo.')
         else:
             sg.Popup('No se encontro tipo en Wiktionary ,ni en Pattern para la palabra')
 
-def borrar_palabra(pal , palabras , lista_palabra , window):
+
+def borrar_palabra(pal , palabras , lista_palabra , window , config):
     cat = buscar_cat(pal)
     print(palabras[cat])
     for pa in palabras[cat]:
-        if(pa[0] == pal) :
+        if(pa[0] == pal):
             palabras[cat].remove(pa)
-            Eliminar = window.FindElement('Agregadas')
+            eliminar = window.FindElement('Agregadas')
             lista_palabra.remove(pal)
-            Eliminar.Update(values=lista_palabra)
-    print(palabras[cat])
+            eliminar.Update(values=lista_palabra)
+            #Actualizar sliders
+            tipo = {SUS : CANT_SUS , ADJ : CANT_ADJ , VER : CANT_VER}
+            print("Aca estoy")
+            slider = window.FindElement(cat)
+            if(config[tipo[cat]] > len(palabras[cat])):
+                config[tipo[cat]] = len(palabras[cat])
+            slider.Update(value= config[tipo[cat]], range=(0, len(palabras[cat])))
+
 
 def checkear_sliders(config , valores):
-    if valores[1] != '':
-        config[CANT_ADJ]  = int(valores[1])
-    if valores[2] != '':
-        config[CANT_VER] = int(valores[2])
-    if valores[3] != '':
-        config[CANT_SUS] = int(valores[3])
-    if config[CANT_ADJ]  + config[CANT_VER] + config[CANT_SUS] == 0:
-        sg.Popup("No esta permitido jugar con 0 palabras , te pondre al menos 1 para poder jugar")#arreglar para todos los casos
-        config[CANT_ADJ] = 1
+    val = [ADJ , VER , SUS]
+    tipos = [CANT_ADJ,CANT_VER,CANT_SUS]
+    ## Fijarse que no haya 0 palabras seleccionadas
+    suma=0
+    for i in range(3):
+        if valores[val[i]] == '':
+            suma += config[tipos[i]]
+        else:
+            suma+=valores[val[i]]
+            
+    if suma <= 0:
+        sg.Popup("No esta permitido jugar con 0 palabras, Por favor vuelva a elegir cuantas palabras desea para jugar")
+    else :
+        if valores[ADJ] != '':
+            config[CANT_ADJ]  = int(valores[ADJ])
+        if valores[VER] != '':
+            config[CANT_VER] = int(valores[VER])
+        if valores[SUS] != '':
+            config[CANT_SUS] = int(valores[SUS])
+
+        
 def checkear_colores(config, valores , window):
     if valores[COL_ADJ] != '':
         config[COL_ADJ] = valores[COL_ADJ]
@@ -178,15 +203,30 @@ def checkear_colores(config, valores , window):
         color_boton = window.FindElement(COL_SUS)
         color_boton.Update(button_color = ('#000000',config[COL_SUS]))
 
-def checkear_config(config, valores):
+def checkear_config(config, valores , ofi ):
     
-    config[CONF_AYUDA] = valores[4]
-    config[CONF_MAY] = valores[5]
+    config[CONF_AYUDA] = valores[1]
+    config[CONF_MAY] = valores[2]
     config['tipografia'] = valores['tipografia']
-    if valores[6]:
+    if valores[3]:
         config[CONF_ORIENTACION] = CONF_VERT
     else:
         config[CONF_ORIENTACION] = 'Horizontal'
+    if valores[5] != "":
+        promedio = 0
+        for reg in ofi[valores[5]]:
+            promedio += reg["temperatura"]
+        promedio = promedio / len(ofi[valores[5]])
+        if(promedio <= 15):
+            temp = "NeutralBlue"
+        elif(promedio <= 25):
+            temp = "Kayak"
+        else:
+            temp = "SandyBeach"
+        config[LOOK] = temp
+        print(promedio , temp)
+        sg.ChangeLookAndFeel(temp)
+
 
 def mostrar_reporte(reporte , fuente):
         layout = [
@@ -205,23 +245,24 @@ def mostrar_reporte(reporte , fuente):
 
 # Main
 def main():
-
     reporte = open("reporte.txt","r+")
     config = {}        #Diccionario que se cargara en el configuracion.json
     palabras = import_json(DIR_PAL)
     config = import_json(DIR_CONFIG)
+    ofi = import_json(DIR_OFI)
 
     
     l = list(map( lambda x : list(map(lambda y : y[0] , x)), palabras.values()))
     palabras_lista = []
     for pal in  l:
         palabras_lista = palabras_lista + pal
-    window = crear_interfaz(palabras , config , palabras_lista)
+    window = crear_interfaz(palabras , config , palabras_lista , ofi)
 
     
     seguir = True
     while seguir :
         boton, valores=window.Read()
+        print(valores)
         print(boton , valores)
         if boton==None or boton=='Cancel':
             
@@ -229,12 +270,12 @@ def main():
             break
         if boton == 'Submit':
            checkear_sliders(config, valores)
-           checkear_colores(config, valores , window )
-           checkear_config(config , valores)
+           checkear_colores(config, valores , window)
+           checkear_config(config , valores , ofi)
         elif(boton == 'Agregar'):
-            agregar_palabra(valores[0] , palabras , window, palabras_lista ,reporte)
+            agregar_palabra(valores[0] , palabras , window, palabras_lista ,reporte , config)
         elif(boton == 'Eliminar'):
-            borrar_palabra(valores[0],palabras , palabras_lista , window)
+            borrar_palabra(valores[0],palabras , palabras_lista , window , config)
         elif(boton == 'Reporte'):
             reporte.seek(0)
             mostrar_reporte(reporte.readlines() , config["tipografia"])
