@@ -2,6 +2,7 @@
 import PySimpleGUI as sg
 import modulos.juego as juego
 import modulos.configurar as configurar
+from modulos.constantes import *
 
 layout = [
 			[sg.Text('SOPA DE LETRA')],
@@ -9,6 +10,8 @@ layout = [
 
 		 ]
 boo=True
+config = import_json(DIR_CONFIG)
+sg.ChangeLookAndFeel(config[LOOK])
 window = sg.Window('sopa de letras').Layout(layout)
 while (boo):
 	boton, valores=window.Read()
