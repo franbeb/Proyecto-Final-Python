@@ -10,7 +10,7 @@ from pattern.es import parse
 
 
 def crear_interfaz(pal, config, palabras_lista , ofi):
-
+    "Crea la interfaz"
     ori = config[CONF_ORIENTACION] == CONF_VERT
 
     layout = [
@@ -40,6 +40,7 @@ def crear_interfaz(pal, config, palabras_lista , ofi):
 
 
 def analizar_seccion(elem, tipo):
+    "En wiktionary, buscar la definicion y el tipo"
     tip = tipo
     part = elem.content.split('\n')
     defi = 'Nada'
@@ -50,6 +51,7 @@ def analizar_seccion(elem, tipo):
 
 
 def buscar_palabra(pal , reporte):
+    "Busca una palabra, con su definicion y categoria"
     w = Wiktionary(language='es')
     art = w.search(pal)
 
@@ -98,7 +100,7 @@ def buscar_palabra(pal , reporte):
 
 
 def buscar_cat(pal) :
-    
+    "Busca la categoria de una palabra"
     w = Wiktionary(language = 'es')
     art = w.search(pal)
 
@@ -126,6 +128,7 @@ def buscar_cat(pal) :
     return tipo
 
 def agregar_palabra(pal , palabras , window , palabras_lista , reporte , config):
+    "Agrega una palabraa"
     pal = pal.lower()
     cat , definicion = buscar_palabra(pal , reporte)
     existe = cat != 'Nada'
@@ -150,6 +153,7 @@ def agregar_palabra(pal , palabras , window , palabras_lista , reporte , config)
 
 
 def borrar_palabra(pal , palabras , lista_palabra , window , config):
+    "Borra una palabra"
     cat = buscar_cat(pal)
     print(palabras[cat])
     for pa in palabras[cat]:
@@ -168,6 +172,7 @@ def borrar_palabra(pal , palabras , lista_palabra , window , config):
 
 
 def checkear_sliders(config , valores):
+    "Guarda los valores de los sliders en los jsons"
     val = [ADJ , VER , SUS]
     tipos = [CANT_ADJ,CANT_VER,CANT_SUS]
     ## Fijarse que no haya 0 palabras seleccionadas
@@ -190,6 +195,7 @@ def checkear_sliders(config , valores):
 
         
 def checkear_colores(config, valores , window):
+    "Guarda los colores en los jsons"
     if valores[COL_ADJ] != '':
         config[COL_ADJ] = valores[COL_ADJ]
         color_boton = window.FindElement(COL_ADJ)
@@ -204,7 +210,7 @@ def checkear_colores(config, valores , window):
         color_boton.Update(button_color = ('#000000',config[COL_SUS]))
 
 def checkear_config(config, valores , ofi ):
-    
+    "Guarda configuarciones varias como orientacion y ayuda en los jsons"
     config[CONF_AYUDA] = valores[1]
     config[CONF_MAY] = valores[2]
     config['tipografia'] = valores['tipografia']
@@ -229,6 +235,7 @@ def checkear_config(config, valores , ofi ):
 
 
 def mostrar_reporte(reporte , fuente):
+        "Muestra un reporte"
         layout = [
             [sg.Text("Reporte")],
             [sg.Listbox(reporte[0:], size=(70,10) , font = fuente)],
