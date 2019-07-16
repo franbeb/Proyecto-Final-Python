@@ -20,6 +20,7 @@ class Sonido:
         GPIO.add_event_detect(self._canal, GPIO.RISING)
         
     def evento_detectado(self, funcion):
+        "Se fija si se escucha algo"
         if GPIO.event_detected(self._canal):
             funcion()
 

@@ -9,12 +9,14 @@ temperatura = Temperatura()
 
 
 def leer_temp():
+    "Lee la temperatura"
     info_temperatura = temperatura.datos_sensor()
     info_temperatura.update({"fecha": time.asctime(time.localtime(time.time()))})
     return info_temperatura
 
 
 def guardar_temp(info, oficina='oficina1'):
+    "Guarda la temperatura en el json"
     with open("../datos/datos-oficina.json", "r") as log_file:
         try:
             dic_de_temperaturas = json.load(log_file)
