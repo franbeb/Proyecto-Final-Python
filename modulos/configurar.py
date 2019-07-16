@@ -155,7 +155,6 @@ def agregar_palabra(pal , palabras , window , palabras_lista , reporte , config)
 def borrar_palabra(pal , palabras , lista_palabra , window , config):
     "Borra una palabra"
     cat = buscar_cat(pal)
-    print(palabras[cat])
     for pa in palabras[cat]:
         if(pa[0] == pal):
             palabras[cat].remove(pa)
@@ -164,7 +163,6 @@ def borrar_palabra(pal , palabras , lista_palabra , window , config):
             eliminar.Update(values=lista_palabra)
             #Actualizar sliders
             tipo = {SUS : CANT_SUS , ADJ : CANT_ADJ , VER : CANT_VER}
-            print("Aca estoy")
             slider = window.FindElement(cat)
             if(config[tipo[cat]] > len(palabras[cat])):
                 config[tipo[cat]] = len(palabras[cat])
@@ -230,7 +228,6 @@ def checkear_config(config, valores , ofi ):
         else:
             temp = "SandyBeach"
         config[LOOK] = temp
-        print(promedio , temp)
         sg.ChangeLookAndFeel(temp)
 
 
@@ -269,8 +266,6 @@ def main():
     seguir = True
     while seguir :
         boton, valores=window.Read()
-        print(valores)
-        print(boton , valores)
         if boton==None or boton=='Cancel':
             
             boo=False
