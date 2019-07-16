@@ -19,11 +19,11 @@ def crear_interfaz(pal, config, palabras_lista , ofi):
             [sg.Text('Palabras \n Agregadas'), sg.Listbox(
                 palabras_lista, size=(None, 5), key='Agregadas')],
             [sg.Text(ADJ), sg.Slider(range=(0, len(pal[ADJ])), default_value=config[CANT_ADJ], orientation='horizontal', font=('Helvetica', 12), key = ADJ), sg.Button(
-                button_text="Color Adjetivos", button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_ADJ]), key=COL_ADJ)],
+                button_text=COL_ADJ, button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_ADJ]), key=COL_ADJ)],
             [sg.Text(VER), sg.Slider(range=(0, len(pal[VER])), default_value=config[CANT_VER], orientation='horizontal', font=('Helvetica', 12), key = VER), sg.Button(
-                button_text="Color Verbos", button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_VER]), key=COL_VER)],
+                button_text=COL_VER, button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_VER]), key=COL_VER)],
             [sg.Text(SUS), sg.Slider(range=(0, len(pal[SUS])), default_value=config[CANT_SUS], orientation='horizontal', font=('Helvetica', 12), key = SUS), sg.Button(
-                button_text="Color Sustantivos", button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_SUS]), key=COL_SUS)],
+                button_text=COL_SUS, button_type=sg.BUTTON_TYPE_COLOR_CHOOSER, button_color=('#000000', config[COL_SUS]), key=COL_SUS)],
             [sg.Checkbox('Ayuda', default=config[CONF_AYUDA])],
             [sg.Text('Tipografia de texto'),sg.InputCombo(values= ['Helvetica', 'Arial', 'Calibri'], readonly= True, key = 'tipografia')],
             [sg.Checkbox('Mayusculas', default=config[CONF_MAY])],
@@ -52,22 +52,26 @@ def analizar_seccion(elem, tipo):
 
 def buscar_palabra(pal , reporte):
     "Busca una palabra, con su definicion y categoria"
-    w = Wiktionary(language='es')
-    art = w.search(pal)
+
 
     tipo = 'Nada'
     tipo_wiki = 'Nada'
     tipo_pat = 'Nada'
     defi = 'Nada'
-    if art != None:
-        for elem in art.sections:
-            if 'adjetivo' in elem.title.lower():
-                tipo_wiki, defi = analizar_seccion(elem, ADJ)
-            elif 'verbo' in elem.title.lower():
-                tipo_wiki, defi = analizar_seccion(elem, VER)
-            elif 'sustantivo' in elem.title.lower():
-                tipo_wiki, defi = analizar_seccion(elem, SUS)
+    try:
 
+        w = Wiktionary(language='es')
+        art = w.search(pal)
+        if art != None:
+            for elem in art.sections:
+                if 'adjetivo' in elem.title.lower():
+                    tipo_wiki, defi = analizar_seccion(elem, ADJ)
+                elif 'verbo' in elem.title.lower():
+                    tipo_wiki, defi = analizar_seccion(elem, VER)
+                elif 'sustantivo' in elem.title.lower():
+                    tipo_wiki, defi = analizar_seccion(elem, SUS)
+    except:
+        sg.Popup("No se esta conectado a Internet :(")
 
     tip = parse(pal)
     tip = tip.split('/')[1]
@@ -101,11 +105,12 @@ def buscar_palabra(pal , reporte):
 
 def buscar_cat(pal) :
     "Busca la categoria de una palabra"
-    w = Wiktionary(language = 'es')
-    art = w.search(pal)
+
 
     tipo = 'Nada'
     try :
+        w = Wiktionary(language='es')
+        art = w.search(pal)
         for elem in art.sections :
             if 'adjetivo' in elem.title.lower():
                 tipo = ADJ
