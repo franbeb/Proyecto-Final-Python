@@ -1,6 +1,4 @@
 #codigo de la sopa de letras
-#el boton para elegir color deberia ser del color seleccionado
-#opcion de mas ayuda que seleciona algunas casillas al comienzo
 
 import PySimpleGUI as sg
 from modulos.constantes import *
@@ -8,17 +6,21 @@ import random as rand
 import string
 
 def letra_random(may):
+	""" Elige una letra al azar
+	la convierte en mayuscula en el caso que se mande True como parametro"""
 	letra = rand.choice(string.ascii_lowercase)
 	if may:
 		letra=letra.upper()
 	return letra
 def rotate_matrix( m, cant_veces=3):
+	"""rota una matriz rectangular en el sentido de la agujas del reloj"""
 	new=m
 	for x in range(cant_veces):
 		new=[[new[j][i] for j in range(len(new))] for i in range(len(new[0])-1,-1,-1)]
 	return new
 	
 def elegir_de_tipo(cant,lista,tipo,mayus=False):
+	"""elije las letras de un una clasificacion en especial(ej: sutativos) """
 	lista_copia=lista.copy()
 	maxim=0
 	elegidos=[]
@@ -35,27 +37,25 @@ def elegir_de_tipo(cant,lista,tipo,mayus=False):
 		maxim=max(maxim,len(el[0]))
 	return (elegidos,maxim,todas_pal)
 
-def elegir_palabras(config,pal):  #parece que las claves ADJ,SUS y VER estan al pedo
+def elegir_palabras(config,pal): 
+	"""Hace la seleccion al azar de todas las palabras para la sopa, tambien devuelve valores relevantes
+	como la palabra mas larga y la cantidad de palabras"""
 	elegido={}
 	todas_pal=[]
 	maxim=0
 	aux=elegir_de_tipo(config[CANT_VER],pal[VER],VER,config[CONF_MAY])
-	elegido[VER]=aux[0]  #palabras elegidas #esto no se usa
 	maxim=max(maxim,aux[1]) #actualizae maximos
 	todas_pal=todas_pal+aux[2]
 	
 	aux=elegir_de_tipo(config[CANT_SUS],pal[SUS],SUS,config[CONF_MAY])
-	elegido[SUS]=aux[0]	#palabras elegidas #esto no se usa
 	maxim=max(maxim,aux[1]) #actualizae maximos
 	todas_pal=todas_pal+aux[2]
 	
 	aux=elegir_de_tipo(config[CANT_ADJ],pal[ADJ],ADJ,config[CONF_MAY])
-	elegido[ADJ]=aux[0]	#palabras elegidas #esto no se usa
 	maxim=max(maxim,aux[1]) #actualizae maximos
 	todas_pal=todas_pal+aux[2]
 	
 	
-	#elegido[CANT_PAL]=config[CANT_VER]+config[CANT_SUS]+config[CANT_ADJ]
 	elegido[MAX_LONG]= maxim
 	rand.shuffle(todas_pal)
 	elegido[CANT_PAL]=len(todas_pal)
@@ -63,7 +63,8 @@ def elegir_palabras(config,pal):  #parece que las claves ADJ,SUS y VER estan al 
 	return elegido
 
 def matriz_crear(elegido,config):
-	w, h = elegido[MAX_LONG]+EXTRA_LONG, elegido[CANT_PAL];#hay que ver si deberian quedar filas vacias
+	"""Crea todas la matrices necesarias para jugar a la sopa de letras """
+	w, h = elegido[MAX_LONG]+EXTRA_LONG, elegido[CANT_PAL];
 	matriz = [[0 for x in range(w)] for y in range(h)]
 	matriz_respuestas=[[None for x in range(w)] for y in range(h)]
 	matriz_input=[[None for x in range(w)] for y in range(h)]
@@ -79,7 +80,7 @@ def matriz_crear(elegido,config):
 		tipo=datospal[1]
 
 		r=rand.randrange(margen+1) #agrego 1 xq por alguna razon nunca quedaban sin margen derecho
-		for i in range(r): #me parece que  no pueden quedar sin margen derecho
+		for i in range(r):
 			margen-=1
 			matriz[y][x]=letra_random(config[CONF_MAY])#caracter al alazar
 			x+=1
@@ -102,9 +103,10 @@ def matriz_crear(elegido,config):
 	
 	
 	
-def crear_layout(matriz,config,palabras):#HACER CONTANTES PARA TAM,PAD Y COLORNEUTRAL!!!!
+def crear_layout(matriz,config,palabras):
+	"""Crea layout del juego a partir de las matrices y la configuracion """
 	layout = [    
-         [sg.Text('sopa de letras: ')]
+         [sg.Text('SOPA DE LETRAS: ')]
 		 ]
 	y=0
 	for lista in matriz:
@@ -136,18 +138,21 @@ def crear_layout(matriz,config,palabras):#HACER CONTANTES PARA TAM,PAD Y COLORNE
 	return(layout)
 	
 def checkear(respuestas,input,output,config,matriz_letras):
+	"""Crea el layout de la ventana de correccion,
+	realiza la correccion en la matriz
+	y muestra todo"""
 	
 	# correccion = [['N' for x in range(w)] for y in range(h)]
 	# for x in range(w):
 		# for y in range(h):
 			# correccion[y][x]= 'C' if respuestas[y][x]==input[y][x] else 'I' #CONT PARA CORRECTO E INCORRECTO y sus respectivos colores
 	layout = [    
-         [sg.Text('correccion: ')],
+         [sg.Text('Correccion: ')],
 		 [sg.Text('Color para las letras que marcaste bien!' , background_color = COL_CORRECTO)],
-		 [sg.Text('Color las palabras que te olvidaste de seleccionar :(', background_color = COL_NOSELEC)],
-		 [sg.Text('Color las palabras que clasificaste mal :/' , background_color = COL_MALCLASIFICADO)],
-		 [sg.Text('Color para letras que marcaste muy mal >:(', background_color = COL_INCORRECTO)],
-		 [sg.Text('Color para letras al azar', background_color = COL_DEFAULT)],
+		 [sg.Text('Color de las letras que no seleccionaste :(', background_color = COL_NOSELEC)],
+		 [sg.Text('Color las letras que clasificaste mal :/' , background_color = COL_MALCLASIFICADO)],
+		 [sg.Text('Color de las letras que marcaste pero no eran parte de ninguna palabra >:(', background_color = COL_INCORRECTO)],
+		 [sg.Text('Color de las letras al azar', background_color = COL_DEFAULT)],
 		 [sg.Text('')]
 		 ]
 	y=0
@@ -181,24 +186,15 @@ def checkear(respuestas,input,output,config,matriz_letras):
 	window.Close()
 	return (boton)
 			
-# def click():
-# def selcionar_tipodepal():#verbo/sustantivo/adjetivo
-
-# def generar_tablero():
 
 def main(): #empieza a jugar
+	"""Empieza el juego """
 	
 	config=import_json(DIR_CONFIG)
 	todas_pal=import_json(DIR_PAL)
-	print(config)
-	print(todas_pal)
 	elegido=elegir_palabras(config,todas_pal)
-	print('sdasds: ',elegido)
 	matriz,matriz_respuestas,matriz_input,matriz_output=matriz_crear(elegido,config)
-	# for lista in matriz:
-		# print(lista)
-	# for lista in matriz_respuestas:
-		# print(lista)
+
 	layout= crear_layout(matriz,config,elegido[TODAS_PAL])					
 	window = sg.Window('sopa de letras').Layout(layout)
 	
@@ -238,13 +234,10 @@ def main(): #empieza a jugar
 			selec=window.Element(boton)
 			if matriz_input[boton[0]][boton[1]]==tipo_selecionado:
 				matriz_input[boton[0]][boton[1]]=None
-				selec.Update(background_color='lightblue')###color neutro
+				selec.Update(background_color=COL_NEU)#color neutro
 			else:
 				matriz_input[boton[0]][boton[1]]=tipo_selecionado
 				selec.Update(background_color=dic_col[tipo_selecionado])###color asociado con ese tipo
-		print(tipo_selecionado, boton)
 	window.Close()
-		# for lista in matriz_input:
-			# print(lista)
 	if repetir:
 		main()
