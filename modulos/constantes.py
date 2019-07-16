@@ -30,6 +30,7 @@ COL_MALCLASIFICADO = "#da716d"
 COL_DEFAULT = "#77cac1"
 COL_CORRECTO = "#34e238"
 COL_NOSELEC = "#fcae45"
+COL_NEU = 'lightblue'
 
 #Juego
 
@@ -41,11 +42,13 @@ TODAS_PAL = 'Todas_Palabras' #Lista con las palabras de todas la categorias
 #Procesos 
 
 def import_json(dir):
+    '''Abre un archivo JSON '''
     with open(dir,'r') as arch:
         reader = json.load(arch) 
     return(reader)
 
 def escribir_json(dir , palabras):
+    '''Escribe un archivo JSON '''
     with open(dir , 'w') as new:
         new.write(json.dumps(palabras))
 	
