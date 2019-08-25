@@ -194,15 +194,15 @@ def checkear_sliders(config , valores):
         
 def checkear_colores(config, valores , window):
     "Guarda los colores en los jsons"
-    if valores[COL_ADJ] != '':
+    if valores[COL_ADJ] != '' and valores[COL_ADJ] != 'None' :
         config[COL_ADJ] = valores[COL_ADJ]
         color_boton = window.FindElement(COL_ADJ)
         color_boton.Update(button_color = ('#000000',config[COL_ADJ]))
-    if valores[COL_VER] != '':
+    if valores[COL_VER] != '' and valores[COL_VER] != 'None' :
         config[COL_VER] = valores[COL_VER]
         color_boton = window.FindElement(COL_VER)
         color_boton.Update(button_color = ('#000000',config[COL_VER]))
-    if valores[COL_SUS] != '':
+    if valores[COL_SUS] != '' and  valores[COL_SUS] != 'None' :
         config[COL_SUS] = valores[COL_SUS]
         color_boton = window.FindElement(COL_SUS)
         color_boton.Update(button_color = ('#000000',config[COL_SUS]))
