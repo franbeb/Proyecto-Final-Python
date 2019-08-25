@@ -133,7 +133,12 @@ def crear_layout(matriz,config,palabras):
 			layout.append([sg.Text(''.join(['Cantidad de adjetivos: ',str(config[CANT_ADJ])]))])
 		if CANT_VER!=0:
 			layout.append([sg.Text(''.join(['Cantidad de verbos: ',str(config[CANT_VER])]))])
-		
+	if config[LOOK]=="SandyBeach":
+		layout.append([sg.Image(filename='imagenes/sm_calor.png')]	)
+	elif config[LOOK]=="Kayak":
+		layout.append([sg.Image(filename='imagenes/sm_temp.png')]	)
+	else:
+		layout.append([sg.Image(filename='imagenes/sm_frio.png')]	)
 	layout.append([sg.Button('Corregir',key='Submit'),sg.Button('Volver',key='Cancel')]	)
 	return(layout)
 	

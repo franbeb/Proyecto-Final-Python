@@ -5,7 +5,7 @@ import modulos.configurar as configurar
 from modulos.constantes import *
 
 layout = [
-			[sg.Text('SOPA DE LETRA')],
+			[sg.Image(filename='imagenes/banner.png')],
 			[sg.Button('Jugar'),sg.Button('Configurar')]
 
 		 ]
