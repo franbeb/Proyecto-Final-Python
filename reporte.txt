@@ -1,6 +1,6 @@
-No se encontro tipo en Wiktionary , se utilizo la categoria encontrada en Pattern para la palabra carie 
-Se ingreso definicion , ya que no se pudo encontrar una en Wiktionary para la palabra carie 
-ucel 
+Conflicto entre tipos de Wiktionary y Pattern , se tomara la categoria de Wiktionary para la palabraanimal 
+Se ingreso definicion , ya que no se pudo encontrar una en Wiktionary para la palabra animal 
+ 
 Se ingreso definicion , ya que no se pudo encontrar una en Wiktionary para la palabra futuro 
 No se encontro tipo en Wiktionary , se utilizo la categoria encontrada en Pattern para la palabra Cargar 
 Se ingreso definicion , ya que no se pudo encontrar una en Wiktionary para la palabra Cargar 

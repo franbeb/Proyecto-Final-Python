@@ -30,7 +30,7 @@ def crear_interfaz(pal, config, palabras_lista , ofi):
 
             [sg.Radio('Vertical', 'Radio1', default=ori), sg.Radio(
                 'Horizontal', 'Radio1', default=not ori)],
-            [sg.Combo(list(ofi.keys()))],
+            [sg.Combo(list(ofi.keys()),default_value=config[OFI])],
             [sg.Button('Guardar', key='Submit'), sg.Button(
                 'Volver', key='Cancel'), sg.Button('Mostrar Reporte', key='Reporte')]
             ]
@@ -194,15 +194,15 @@ def checkear_sliders(config , valores):
         
 def checkear_colores(config, valores , window):
     "Guarda los colores en los jsons"
-    if valores[COL_ADJ] != '' and valores[COL_ADJ] != 'None' :
+    if valores[COL_ADJ] != '':
         config[COL_ADJ] = valores[COL_ADJ]
         color_boton = window.FindElement(COL_ADJ)
         color_boton.Update(button_color = ('#000000',config[COL_ADJ]))
-    if valores[COL_VER] != '' and valores[COL_VER] != 'None' :
+    if valores[COL_VER] != '':
         config[COL_VER] = valores[COL_VER]
         color_boton = window.FindElement(COL_VER)
         color_boton.Update(button_color = ('#000000',config[COL_VER]))
-    if valores[COL_SUS] != '' and  valores[COL_SUS] != 'None' :
+    if valores[COL_SUS] != '':
         config[COL_SUS] = valores[COL_SUS]
         color_boton = window.FindElement(COL_SUS)
         color_boton.Update(button_color = ('#000000',config[COL_SUS]))
@@ -228,6 +228,7 @@ def checkear_config(config, valores , ofi ):
         else:
             temp = "SandyBeach"
         config[LOOK] = temp
+        config[OFI] = valores[5]
         sg.ChangeLookAndFeel(temp)
 
 

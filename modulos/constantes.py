@@ -5,6 +5,7 @@ DIR_PAL = "datos/palabras.json" #Guarda la direccion donde se encuentra el json 
 DIR_CONFIG = "datos/configuracion.json" #Guarda la direccion donde se encuentra la configuracion a usar en la sopa de letra
 DIR_OFI = "datos/datos-oficinas.json"
 LOOK = 'Look'
+OFI = "Oficina_Elegida"
 
 #Palabras.json
 ADJ = 'Adjetivo' #String que representa la clave en Palabras de los adjetivos
